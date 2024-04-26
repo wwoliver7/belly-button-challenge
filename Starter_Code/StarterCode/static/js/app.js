@@ -25,7 +25,7 @@ function init () {
             buildBarChart(firstSample);
             buildBubblePlot(firstSample);
             buildMetadata(firstSample);
-            
+            buildGaugeChart(firstSample);
     });
 
 };
@@ -124,9 +124,63 @@ function buildBubblePlot (sampleID) {
     });
 };
 
+//Function to populate the Gauge Chart
+function buildGaugeChart(sample) {
+    // Use D3 to retrieve all of the data
+    d3.json(url).then((data) => {
+      
+      
+      let metadata = data.metadata;
+      
+     
+      let resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
+      
+     
+      let result = resultArray[0];
+      
+     
+      let wfreq = result.wfreq;
+      
+      // Trace for the gauge chart
+      let trace = [
+        {
+          domain: { x: [0, 1], y: [0, 1] },
+          value: wfreq,
+          title: { text: "Belly Button Washing Frequency" },
+          type: "indicator",
+          mode: "gauge+number",
+          gauge: {
+            axis: { range: [null, 9] },
+            bar: { color: "lightgreen" },
+            steps: [
+              { range: [0, 1], color: "#9033FF" },
+              { range: [1, 2], color: "#BB33FF" },
+              { range: [2, 3], color: "#D433FF" },
+              { range: [3, 4], color: "#F933FF" },
+              { range: [4, 5], color: "#FF33E3" },
+              { range: [5, 6], color: "#FF33A2" },
+              { range: [6, 7], color: "#FF336B" },
+              { range: [7, 8], color: "#FF334F" },
+              { range: [8, 9], color: "#FF3336" }
+            ],
+          }
+        }
+      ];
+      
+      // Layout
+      let layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+      
+      // Plotly to plot the gauge chart
+      Plotly.newPlot("gauge", trace, layout);
+    });
+  }
+
 //Update change
 function optionChanged(sampleID) {
     buildMetadata(sampleID);
     buildBarChart(sampleID);
     buildBubblePlot(sampleID);
+    buildGaugeChart(sampleID);
 };
+
+
