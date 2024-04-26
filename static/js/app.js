@@ -92,8 +92,8 @@ function buildBubblePlot (sampleID) {
         let samples = data.samples;
 
     
-    let sampleArray = samples.filter(sample => sample.id == sampleID);
-    let sample = sampleArray[0];
+    let sArray = samples.filter(sample => sample.id == sampleID);
+    let sample = sArray[0];
     
    
     let otu_ids = sample.otu_ids
@@ -133,10 +133,10 @@ function buildGaugeChart(sample) {
       let metadata = data.metadata;
       
      
-      let resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
+      let rArray = metadata.filter(sampleObj => sampleObj.id == sample);
       
      
-      let result = resultArray[0];
+      let result = rArray[0];
       
      
       let wfreq = result.wfreq;
